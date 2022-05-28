@@ -20,20 +20,17 @@ def upload():
     elif not os.path.isdir(target_audio):
         os.mkdir(target_audio)
 
-    if not request.files.get('file', None):
-        flash('sup', 'error')
-    else:
-        for file in request.files.getlist('file'):
-            print(file)
-            video_filename = file.filename
-            destination ='/'.join([target_video, video_filename])
-            print(destination)
-            file.save(destination)
-            video_file = mp.VideoFileClip(target_video + video_filename)
-            audio_filename = target_audio + os.path.splitext(video_filename)[0] + '.mp3'
-            video_file.audio.write_audiofile(audio_filename)
+    for file in request.files.getlist('file'):
+        print(file)
+        video_filename = file.filename
+        destination ='/'.join([target_video, video_filename])
+        print(destination)
+        file.save(destination)
+        video_file = mp.VideoFileClip(target_video + video_filename)
+        audio_filename = target_audio + os.path.splitext(video_filename)[0] + '.wav'
+        video_file.audio.write_audiofile(audio_filename)
     
         
     
 
-    return render_template("success.html")
+    return render_template("cuttingroom.html")
